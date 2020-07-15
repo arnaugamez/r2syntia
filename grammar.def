@@ -1,0 +1,5 @@
+OP1=bvnot,bvneg
+OP2=bvadd,bvsub,bvmul,bvand,bvor,bvxor
+OP3=
+COMMUTATIVE_OPS=bvadd,bvmul,bvand,bvor,bvxor
+NON_TERMINALS=u8,u16,u32,u64
