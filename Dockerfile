@@ -15,6 +15,8 @@ RUN cd /opt && \
 mkdir r2syntia
 
 COPY r2syntia.py /opt/r2syntia/r2syntia.py
+COPY grammar.def /opt/r2syntia/grammar.def
+COPY grammar_full.def /opt/r2syntia/grammar_full.def
 COPY syntia /opt/r2syntia/syntia
 COPY test_files /opt/r2syntia/test_files
 
