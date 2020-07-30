@@ -1,4 +1,4 @@
-***r2syntia*** is a proof-of-concept integration of the program synthesis tool Syntia into the reverse engineering framework radare2. I developed it as a demonstration for my BSc thesis *Code deobfuscation by program synthesis-aided simplification of Mixed Boolean-Arithmetic expressions*, which will be publicly available soon.
+***r2syntia*** is a proof-of-concept integration of the program synthesis tool Syntia into the reverse engineering framework radare2. I developed it as a demonstration for my BSc thesis [*Code deobfuscation by program synthesis-aided simplification of Mixed Boolean-Arithmetic expressions*](https://github.com/arnaugamez/tfg).
 
 The current interface is rather limited by the way the script is invoked. The plan is to make it into a native r2 plugin in the near future (hopefully before end of summer) which will permit configuring and leveraging more aspects that are already available within Syntia.
 
