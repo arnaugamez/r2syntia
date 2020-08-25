@@ -1,15 +1,6 @@
 from collections import OrderedDict
 from orderedset import OrderedSet
-
-
-GRAMMAR_FILE = "grammar.def"
-with open(GRAMMAR_FILE, 'r') as f:
-    lines = f.readlines()
-    OP1 = OrderedSet(lines[0].split('=')[1][:-1].split(','))
-    OP2 = OrderedSet(lines[1].split('=')[1][:-1].split(','))
-    OP3 = OrderedSet(lines[2].split('=')[1][:-1].split(','))
-    COMMUTATIVE_OPS = OrderedSet(lines[3].split('=')[1][:-1].split(','))
-    NON_TERMINALS = OrderedSet(lines[4].split('=')[1][:-1].split(','))
+from .grammars.smallGrammar import OP1, OP2, OP3, COMMUTATIVE_OPS, NON_TERMINALS
 
 X86_BIAS = False
 

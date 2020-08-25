@@ -1,5 +1,0 @@
-OP1=bvnot,bvneg
-OP2=bvadd,bvsub,bvmul,bvudiv,bvsdiv,bvurem,bvsrem,bvshl,bvlshr,bvashr,bvand,bvor,bvxor,zero_extend,bvconcat
-OP3=bvextract,sign_extend
-COMMUTATIVE_OPS=bvadd,bvmul,bvand,bvor,bvxor
-NON_TERMINALS=u8,u16,u32,u64

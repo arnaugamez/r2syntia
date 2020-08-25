@@ -1,6 +1,10 @@
-import sys
-import r2pipe
+"""DESC
+"""
 
+__author__  = "Arnau Gàmez i Montolio (@arnaugamez)"
+
+
+import sys
 from z3 import simplify
 from syntia.mcts.game import Game, Variable
 from syntia.mcts.grammar import Grammar
@@ -9,8 +13,22 @@ from syntia.utils.paralleliser import Paralleliser
 from syntia.mcts.utils import *
 
 
-# Open pipe with radare2 shell session
-r2 = r2pipe.open()
+
+# Check if we're running from cutter
+try:
+    import cutter
+    from PySide2.QtCore import QObject, SIGNAL
+    from PySide2.QtWidgets import QAction, QVBoxLayout, QLabel, QWidget, QSizePolicy, QPushButton
+
+    pipe = cutter
+    cutter_available = True
+
+
+# If no, assume running from radare2
+except:
+    import r2pipe
+    pipe = r2pipe.open()
+    cutter_available = False
 
 
 # Define global constants
@@ -23,7 +41,7 @@ NUM_OF_VARIABLES = len(VARS_IN)
 VAR_OUT = sys.argv[-1]
 
 NUM_IO_PAIRS = 50
-VERBOSITY = 2 # 0, 1, 2
+VERBOSITY = 1 # 0, 1, 2
 
 
 # Print general information
@@ -43,7 +61,7 @@ in_out_map = {}
 
 
 # Initialize ESIL VM state and VM stack.
-r2.cmd("aeim")
+pipe.cmd("aeim")
 
 
 # Generate I/O pairs with ESIL emulation
@@ -56,27 +74,27 @@ INPUTS = get_random_inputs(NUM_OF_VARIABLES, NUM_IO_PAIRS)
 for i in range(NUM_IO_PAIRS):
     in_vect = tuple(INPUTS[i])
 
-    r2.cmd("s " + STRT)
-    r2.cmd("aeim")
+    pipe.cmd("s " + STRT)
+    pipe.cmd("aeim")
 
     for j in range(NUM_OF_VARIABLES):
         var = VARS_IN[j]
 
         # Memory location
-        if var[0] == '[': r2.cmd("ae " + str(in_vect[j]) + ",`?v " + var[1:-1] + "`,=[]")
+        if var[0] == '[': pipe.cmd("ae " + str(in_vect[j]) + ",`?v " + var[1:-1] + "`,=[]")
         
         # Register
-        else: r2.cmd("aer " + var + "=" + str(in_vect[j]))
+        else: pipe.cmd("aer " + var + "=" + str(in_vect[j]))
 
-    r2.cmd("aesu " + FINI)
+    pipe.cmd("aesu " + FINI)
 
     # Memory location output
     if VAR_OUT[0] == '[':
-        in_out_map[in_vect] = int(r2.cmd("pf N8 @ " + VAR_OUT[1:-1] + "~[1]")[:-1])
+        in_out_map[in_vect] = int(pipe.cmd("pf N8 @ " + VAR_OUT[1:-1] + "~[1]")[:-1])
     
     # Register output
     else:
-        in_out_map[in_vect] = int(r2.cmd("aer " + VAR_OUT)[:-1], 16)
+        in_out_map[in_vect] = int(pipe.cmd("aer " + VAR_OUT)[:-1], 16)
 
     if VERBOSITY > 0:
         print ("#{:02d}".format(i+1)+" |", in_vect, "->", in_out_map[in_vect])
@@ -173,7 +191,7 @@ task_groups = []
 workers = []
 commands = []
 
-for index in range(4):
+for index in range(1): # 4
     task_group = "TG"
     task_groups.append(task_group)
 
@@ -199,3 +217,6 @@ end_time = time()
 
 print("===\n")
 print("[*] Synthesis finished in {} seconds".format(end_time - start_time))
+
+
+
