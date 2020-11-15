@@ -1,7 +1,5 @@
 ***r2syntia*** is a proof-of-concept integration of the program synthesis tool Syntia into the reverse engineering framework radare2. I developed it as a demonstration for my BSc thesis [*Code deobfuscation by program synthesis-aided simplification of Mixed Boolean-Arithmetic expressions*](https://github.com/arnaugamez/tfg).
 
-The current interface is rather limited by the way the script is invoked. The plan is to make it into a native r2 plugin in the near future (hopefully before end of summer) which will permit configuring and leveraging more aspects that are already available within Syntia.
-
 A Dockerfile is included to ease the installation process for quick testing. It will build a container with all the tools, requirements and test files placed in `/opt` folder.
 
 # Manual installation
@@ -63,12 +61,12 @@ Call r2syntia with bit size `64`, start offset `0x0041b264`, finish offset `0x00
 
 The examples above apply to the file `obfuscated` under the `test_files` folder.
 
-# Known issues and tentative road map
+# More
+***UPDATE***: After exploring a bit on plugin dev, and wanting to support Cutter as well, I think it makes more sense (and could be easier) to have a Cutter plugin that can act itself as an r2pipe python callable script in the way in works now within r2. This idea is taken from https://github.com/CheckPointSW/Cyber-Research/blob/master/Malware/APT32/APT32GraphDeobfuscator.py.
 
-- [x] Add support for memory locations to be used as I/O variables
-- [ ] Add support for variables of different bit size (WIP)
-- [ ] Create r2 plugin and add it into r2pm:
-  - [ ] Add support for synthesizing multiple output variables
+Thus, the following tasks roughly sum up what could be done in order to make r2syntia a slightly better integration.
+  - [ ] Create Cutter plugin as a compatible r2pipe callable script for r2
   - [ ] Add support for tuning Syntia configuration parameters
-
-I put last two items inside the r2 plugin one, as these should be trivial to implement it if we get access to custom r2 configuration variables by registering r2syntia as an r2 core plugin. Another benefits from it would be the ability to tune verbosity level and input grammar file without having to hardcode it (as it is now) or adding even more arguments to r2syntia pipe calling.
+  - [ ] Add support for synthesizing multiple output variables
+  
+However, as this was intended as a proof-of-concept for my BSc thesis, which is not actually using latest advances on program synthesis for code deobfuscation (as already noted in my BSc thesis), I am not finding much time to work through improving it. Anyway, I leave the previous tasks just in case I find some free time to get into it, even if only as a way of playing with Cutter plugin's creation. Also, feel free to implement any of the previous tasks and send a PR, if you feel like doing so. But please note: I don't think I will be coming back to it anytime soon.
